@@ -2,6 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import css from './EditProfile.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
 import { updateMe } from '@/lib/api/clientApi';
@@ -27,7 +28,13 @@ const EditProfile: React.FC = () => {
     <main className={css.mainContent}>
       <div className={css.profileCard}>
         <h1 className={css.formTitle}>Edit Profile</h1>
-        <img src={user?.avatar || ''} alt="User Avatar" width={120} height={120} className={css.avatar} />
+        <Image
+          src={user?.avatar || '/default-avatar.png'} // fallback аватар
+          alt="User Avatar"
+          width={120}
+          height={120}
+          className={css.avatar}
+        />
         <form className={css.profileInfo} onSubmit={handleSave}>
           <div className={css.usernameWrapper}>
             <label htmlFor="username">Username:</label>
