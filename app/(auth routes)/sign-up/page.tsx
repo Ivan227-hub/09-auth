@@ -1,26 +1,27 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import css from './SignUp.module.css';
-import { register } from '@/lib/api/clientApi';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/lib/store/authStore';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import css from "./SignUp.module.css"; // переконайся, що файл SignUp.module.css лежить у тій же папці
+import { register } from "@/lib/api/clientApi";
+import { useAuthStore } from "@/lib/store/authStore";
+import { User } from "@/types/user";
 
-const SignUp: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const { setUser } = useAuthStore();
+export default function SignUpPage() {
   const router = useRouter();
+  const setUser = useAuthStore((state) => state.setUser);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const user = await register({ email, password });
-      setUser(user);
-      router.push('/profile');
-    } catch (err) {
-      setError('Registration failed');
+      const user: User = await register({ email, password });
+      setUser(user); // записуємо користувача в Zustand
+      router.push("/profile"); // редірект на профіль
+    } catch (err: any) {
+      setError(err?.response?.data?.message || "Registration failed");
     }
   };
 
@@ -30,21 +31,38 @@ const SignUp: React.FC = () => {
       <form className={css.form} onSubmit={handleSubmit}>
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            id="email"
+            type="email"
+            name="email"
+            className={css.input}
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
+
         <div className={css.formGroup}>
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            id="password"
+            type="password"
+            name="password"
+            className={css.input}
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
+
         <div className={css.actions}>
           <button type="submit" className={css.submitButton}>
             Register
           </button>
         </div>
-        <p className={css.error}>{error}</p>
+
+        {error && <p className={css.error}>{error}</p>}
       </form>
     </main>
   );
-};
-
-export default SignUp;
+}
