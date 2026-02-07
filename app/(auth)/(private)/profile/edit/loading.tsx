@@ -1,10 +1,4 @@
-// app/profile/edit/loading.tsx
-'use client';
-
+// loading.tsx
 export default function Loading() {
-  return (
-    <div style={{ textAlign: 'center', padding: '2rem' }}>
-      <p>Завантаження...</p>
-    </div>
-  );
+  return <p>Loading profile edit page...</p>;
 }
