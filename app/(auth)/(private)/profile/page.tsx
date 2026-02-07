@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import Image from 'next/image';
 import css from './Profile.module.css';
 import { useAuthStore } from '@/lib/store/authStore';
 import Link from 'next/link';
@@ -18,7 +18,16 @@ const Profile: React.FC = () => {
           </Link>
         </div>
         <div className={css.avatarWrapper}>
-          <img src={user?.avatar || ''} alt="User Avatar" width={120} height={120} className={css.avatar} />
+          {user?.avatar && (
+            <Image
+              src={user.avatar}
+              alt="User Avatar"
+              width={120}
+              height={120}
+              className={css.avatar}
+              priority
+            />
+          )}
         </div>
         <div className={css.profileInfo}>
           <p>Username: {user?.username}</p>
