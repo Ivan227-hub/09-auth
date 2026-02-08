@@ -1,5 +1,6 @@
 // /app/(private routes)/notes/[id]/page.tsx
-import NoteDetail from '../../../components/NoteDetail';
+import NoteDetail from '../../../../components/NoteDetail';
+
 
 type Props = {
   params: { id: string };
