@@ -1,3 +1,6 @@
+// /app/components/NoteDetail.tsx
+'use client';
+
 import React from 'react';
 
 type NoteDetailProps = {
@@ -9,7 +12,7 @@ const NoteDetail: React.FC<NoteDetailProps> = ({ noteId }) => {
     <div>
       <h1>Note Detail</h1>
       <p>Note ID: {noteId}</p>
-      {}
+      {/* Здесь можно добавить логику получения данных через API */}
     </div>
   );
 };
