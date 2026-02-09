@@ -1,46 +1,17 @@
-// /lib/api/clientApi.ts
-import { api } from './api';
+// Assuming `clientApi.ts`
+import axios from 'axios';
 
-// Типы данных для аутентификации
-export interface AuthData {
-  email: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  user: User;
-}
-
-// Типы данных пользователя
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  // добавь другие поля пользователя, если есть
-}
-
-// Для обновления пользователя
 export interface UpdateMeData {
-  name?: string;
-  email?: string;
-  password?: string;
-  // добавь любые другие поля, которые разрешено обновлять
+  username?: string;
+  // other fields (email, avatar, etc.) if needed
 }
 
-// --- Auth API ---
-export const register = (data: AuthData) =>
-  api.post<AuthResponse>('/auth/register', data);
-
-export const login = (data: AuthData) =>
-  api.post<AuthResponse>('/auth/login', data);
-
-export const logout = () => api.post('/auth/logout');
-
-export const checkSession = () => api.get<AuthResponse>('/auth/session');
-
-// --- User API ---
-export const getMe = () => api.get<User>('/users/me');
-
-export const updateMe = (data: UpdateMeData) =>
-  api.put<User>('/users/me', data);
+export const updateMe = async (data: UpdateMeData) => {
+  try {
+    const response = await axios.put('/api/user/update', data);
+    return response.data; // Ensure this returns a `User` object
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
